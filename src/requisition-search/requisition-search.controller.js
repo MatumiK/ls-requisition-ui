@@ -28,14 +28,12 @@
         .controller('RequisitionSearchController', RequisitionSearchController);
 
     RequisitionSearchController.$inject = [
-        '$state', '$filter', '$stateParams', 'facilities', 'offlineService', 'localStorageFactory', 'confirmService',
-        'requisitions', 'REQUISITION_STATUS', 'requisitionService', 'TB_STORAGE', 'LEPROSY_STORAGE',
-        'RequisitionViewService'
+        '$state', '$filter', '$stateParams', 'facilities', 'homeFacility', 'offlineService', 'localStorageFactory', 'confirmService',
+        'requisitions', 'REQUISITION_STATUS'
     ];
 
-    function RequisitionSearchController($state, $filter, $stateParams, facilities, offlineService, localStorageFactory,
-                                         confirmService, requisitions, REQUISITION_STATUS, requisitionService,
-                                         TB_STORAGE, LEPROSY_STORAGE) {
+    function RequisitionSearchController($state, $filter, $stateParams, facilities, homeFacility, offlineService, localStorageFactory,
+                                         confirmService, requisitions, REQUISITION_STATUS) {
 
         var vm = this,
             offlineRequisitions = localStorageFactory('requisitions');
@@ -56,6 +54,17 @@
          * The list of all facilities available to the user.
          */
         vm.facilities = undefined;
+
+        /**
+         * @ngdoc property
+         * @propertyOf requisition-search.controller:RequisitionViewController
+         * @name  homeFacility 
+         * @type {Array}
+         *
+         * @description
+         * home facility of the user.
+         */
+        vm.homeFacility = undefined;
 
         /**
          * @ngdoc property
@@ -172,6 +181,12 @@
          */
         function onInit() {
             vm.requisitions = requisitions;
+            vm.homeFacility = homeFacility;
+            vm.requisitions.forEach(item => {
+                if(item.extraData.isRedistributed){
+                    item.status = 'REDISTRIBUTED';
+                }
+               });
             vm.facilities = facilities;
             vm.statuses = REQUISITION_STATUS.$toList();
 
@@ -230,32 +245,10 @@
          *
          * @param {String} requisitionId Requisition UUID
          */
-        function openRnr(requisition) {
-            // Clear Patients Tab local storage before openRnr
-            localStorageFactory(TB_STORAGE).clearAll();
-            localStorageFactory(LEPROSY_STORAGE).clearAll();
-
-            if (typeof requisition === 'object') {
-                redirectRequisition(requisition);
-            } else {
-                requisitionService.get(requisition).then(function(requisitionDetails) {
-                    redirectRequisition(requisitionDetails);
-                });
-            }
-        }
-
-        function redirectRequisition(requisition) {
-            if (requisition.template.patientsTabEnabled) {
-                $state.go('openlmis.requisitions.requisition.patients', {
-                    rnr: requisition.id,
-                    requisition: requisition
-                });
-            } else {
-                $state.go('openlmis.requisitions.requisition.fullSupply', {
-                    rnr: requisition.id,
-                    requisition: requisition
-                });
-            }
+        function openRnr(requisitionId) {
+            $state.go('openlmis.requisitions.requisition.fullSupply', {
+                rnr: requisitionId
+            });
         }
 
         /**
@@ -291,7 +284,12 @@
             stateParams.initiatedDateFrom = vm.startDate ? $filter('isoDate')(vm.startDate) : null;
             stateParams.initiatedDateTo = vm.endDate ? $filter('isoDate')(vm.endDate) : null;
             stateParams.offline = vm.offline;
-            stateParams.requisitionStatus = vm.selectedStatus;
+            if (vm.homeFacility.code === "NDSO") {
+                stateParams.requisitionStatus = "IN_APPROVAL";
+            }
+            else{
+                stateParams.requisitionStatus = vm.selectedStatus;
+            }
 
             $state.go('openlmis.requisitions.search', stateParams, {
                 reload: true

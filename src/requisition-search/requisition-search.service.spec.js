@@ -16,12 +16,7 @@
 describe('RequisitionSearchService', function() {
 
     beforeEach(function() {
-        module('requisition-search', function($provide) {
-            $provide.value('featureFlagService', {
-                set: function() {},
-                get: function() {}
-            });
-        });
+        module('requisition-search');
 
         this.prepareFacilities = prepareFacilities;
         this.prepareRequisitionGroups = prepareRequisitionGroups;

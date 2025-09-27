@@ -18,13 +18,7 @@ describe('ConvertToOrderController', function() {
     var UuidGenerator, ProgramDataBuilder, FacilityDataBuilder;
 
     beforeEach(function() {
-        module('requisition-convert-to-order', function($provide) {
-            $provide.value('featureFlagService', {
-                set: function() {},
-                get: function() {}
-            });
-        });
-        module('requisition-view-tab');
+        module('requisition-convert-to-order');
 
         inject(function($injector) {
             this.$q = $injector.get('$q');

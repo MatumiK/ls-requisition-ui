@@ -17,13 +17,7 @@ describe('openlmis.requisitions.search', function() {
 
     beforeEach(function() {
         module('openlmis-navigation');
-        module('requisition-search', function($provide) {
-            $provide.value('featureFlagService', {
-                set: function() {},
-                get: function() {}
-            });
-        });
-        module('requisition-view-tab');
+        module('requisition-search');
 
         var FacilityDataBuilder, RequisitionDataBuilder, PageDataBuilder;
         inject(function($injector) {

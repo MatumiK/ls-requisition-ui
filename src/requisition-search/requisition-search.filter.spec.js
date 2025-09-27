@@ -16,13 +16,7 @@
 describe('requisitionSearch filter', function() {
 
     beforeEach(function() {
-        module('requisition-search', function($provide) {
-            $provide.value('featureFlagService', {
-                set: function() {},
-                get: function() {}
-            });
-        });
-        module('requisition-view-tab');
+        module('requisition-search');
 
         var RequisitionDataBuilder;
         inject(function($injector) {

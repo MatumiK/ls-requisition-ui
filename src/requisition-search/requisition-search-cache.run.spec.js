@@ -28,11 +28,6 @@ describe('requisition-search run', function() {
                 'getFacilities', 'clearCachedFacilities'
             ]);
             $provide.value('requisitionSearchService', requisitionSearchServiceSpy);
-
-            $provide.value('featureFlagService', {
-                set: function() {},
-                get: function() {}
-            });
         });
 
         inject(function($injector) {

@@ -18,12 +18,7 @@ describe('RequisitionStockCountDateModalController', function() {
     var $controller, vm, requisition, modalDeferred, moment;
 
     beforeEach(function() {
-        module('requisition-view', function($provide) {
-            $provide.value('featureFlagService', {
-                set: function() {},
-                get: function() {}
-            });
-        });
+        module('requisition-view');
 
         inject(function($injector) {
             $controller = $injector.get('$controller');

@@ -16,13 +16,7 @@
 describe('openlmis.requisitions.convertToOrder', function() {
 
     beforeEach(function() {
-        module('requisition-convert-to-order', function($provide) {
-            $provide.value('featureFlagService', {
-                set: function() {},
-                get: function() {}
-            });
-        });
-        module('requisition-view-tab');
+        module('requisition-convert-to-order');
 
         var ProgramDataBuilder, FacilityDataBuilder, RequisitionDataBuilder,
             PageDataBuilder;

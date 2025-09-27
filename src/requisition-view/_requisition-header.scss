@@ -14,7 +14,7 @@
         li {
             display: flex;
             flex-direction: column;
-            @include padding-right(2em);
+            padding-right: 2em;
             padding-bottom: 0.2em;
         }
 

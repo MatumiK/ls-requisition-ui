@@ -16,12 +16,7 @@
 describe('openlmis.requisitions.requisition.nonFullSupply state', function() {
 
     beforeEach(function() {
-        module('requisition-view', function($provide) {
-            $provide.value('featureFlagService', {
-                set: function() {},
-                get: function() {}
-            });
-        });
+        module('requisition-view');
         module('referencedata-facility-type-approved-product');
 
         inject(function($injector) {
@@ -93,7 +88,7 @@ describe('openlmis.requisitions.requisition.nonFullSupply state', function() {
         ];
 
         this.columns = [
-            new this.RequisitionColumnDataBuilder().buildProductCodeColumn(this.requisition)
+            new this.RequisitionColumnDataBuilder().buildProductCodeColumn()
         ];
 
         spyOn(this.currentUserService, 'getUserInfo').andReturn(this.$q.resolve(this.user));
