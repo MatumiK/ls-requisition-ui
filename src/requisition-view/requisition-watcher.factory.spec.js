@@ -31,10 +31,6 @@ describe('RequisitionWatcher', function() {
             $provide.service('localStorageFactory', function() {
                 return localStorageFactorySpy;
             });
-            $provide.value('featureFlagService', {
-                set: function() {},
-                get: function() {}
-            });
         });
 
         inject(function($injector) {

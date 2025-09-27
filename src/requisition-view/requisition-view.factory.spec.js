@@ -16,12 +16,7 @@
 describe('requisitionViewFactory', function() {
 
     beforeEach(function() {
-        module('requisition-view', function($provide) {
-            $provide.value('featureFlagService', {
-                set: function() {},
-                get: function() {}
-            });
-        });
+        module('requisition-view');
 
         var UserDataBuilder, RequisitionDataBuilder;
         inject(function($injector) {
